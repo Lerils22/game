@@ -154,7 +154,7 @@ if (hasOptions) {
     setTimeout(() => {
       window.close();
     }, 3000);
-  }, 5000);
+  }, 1000);
 }
 }
 
