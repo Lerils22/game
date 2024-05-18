@@ -1,5 +1,10 @@
 const storyElement = document.getElementById('story');
 const startButton = document.getElementById('start-btn');
+const counterElement = document.getElementById('counter');
+const popupElement = document.getElementById('popup');
+const congratsSound = document.getElementById('congrats-sound');
+
+let restartCount = 0;
 
 // Story object
 const story = {
@@ -34,7 +39,7 @@ const story = {
   confront_guard: {
     text: 'You confront the guard who approaches your cell, demanding answers. But the guard is unyielding, and you are overpowered and restrained. Your escape attempt ends in failure.',
     options: {
-      'Restart the game': 'start'
+      'Restart the game': 'restart'
     }
   },
   escape_plan: {
@@ -65,7 +70,7 @@ const story = {
   betray_allies: {
     text: 'You betray your allies, seizing an opportunity for personal gain. But your actions lead to chaos and betrayal among the group. In the end, you find yourself alone and surrounded by enemies. Your journey ends in betrayal and isolation.',
     options: {
-      'Restart the game': 'start'
+      'Restart the game': 'restart'
     }
   },
   climb_walls: {
@@ -77,63 +82,38 @@ const story = {
   },
   search_another_way: {
     text: 'You search for another way out, exploring the perimeter of the prison for any weaknesses or vulnerabilities. After a thorough search, you discover a hidden passage that leads to freedom. Your journey ends with a daring escape.',
-    options: {
-      'Restart the game': 'start'
-    }
+    options: {}
   },
   stay_cell: {
     text: 'You decide to stay in the cell and wait for something to happen. Time passes slowly, and despair begins to set in. Your journey ends here.',
     options: {
-      'Restart the game': 'start'
+      'Restart the game': 'restart'
     }
   },
   search_exit: {
-    text: 'You cautiously make your way through the corridors, avoiding guards as best you can. You reach a junction with two paths. Which way will you go?',
-    options: {
-      'Left': 'left_path',
-      'Right': 'right_path'
-    }
+    text: 'You search for an exit and find a door slightly ajar. You carefully make your way through, only to be caught by a guard. Your escape attempt ends in failure.',
+    options: {}
   },
   find_footsteps: {
-    text: 'You follow the sound of the footsteps, hoping to find an ally. Instead, you come face to face with a guard. Caught off guard, you are swiftly overpowered. Your escape attempt ends in failure.',
+    text: 'You follow the sound of the footsteps and discover a group of guards. They capture you and your escape attempt ends in failure.',
     options: {
-      'Restart the game': 'start'
-    }
-  },
-  left_path: {
-    text: 'You take the left path and find yourself in a room full of guards. They quickly spot you and you are captured. Your escape attempt ends in failure.',
-    options: {
-      'Restart the game': 'start'
-    }
-  },
-  right_path: {
-    text: 'You take the right path and find an unlocked door leading outside. You are now in the prison yard, but the way to freedom is still fraught with danger. What will you do?',
-    options: {
-      'Head to the main gate': 'main_gate',
-      'Climb over the fence': 'climb_fence'
-    }
-  },
-  main_gate: {
-    text: 'You run towards the main gate, but it is heavily guarded. You are quickly spotted and captured. Your escape attempt ends in failure.',
-    options: {
-      'Restart the game': 'start'
-    }
-  },
-  climb_fence: {
-    text: 'You climb over the fence and drop to the other side. You are now outside the prison, but freedom is still not guaranteed. What will you do?',
-    options: {
-      'Run towards the forest': 'forest_escape',
-      'Head towards the nearby town': 'town_escape'
+      'Restart the game': 'restart'
     }
   },
   forest_escape: {
-    text: 'You run into the forest, the sounds of the prison fading behind you. The forest is dark and full of dangers, but you press on. Eventually, you find a hidden path that leads to freedom. You are finally free.',
+    text: 'You make your way through the forest, evading patrols and navigating through the dense undergrowth. After hours of trekking, you finally reach safety. Congratulations!',
     options: {}
   },
   town_escape: {
-    text: 'You head towards the nearby town, hoping to find help. As you approach, you see guards patrolling the area. You try to sneak past them, but are spotted and captured. Your escape attempt ends in failure.',
+    text: 'You head towards the nearby town, blending in with the townsfolk and finding refuge in a safe house but You were caught.YOU FAILED!',
     options: {
-      'Restart the game': 'start'
+      'Restart the game': 'restart'
+    }
+  },
+  restart: {
+    text: 'You have restarted the game. Good luck!',
+    options: {
+      'Begin the adventure': 'start'
     }
   }
 };
@@ -150,7 +130,13 @@ function displayScene(scene) {
     const button = document.createElement('button');
     button.textContent = optionText;
     button.addEventListener('click', () => {
-      displayScene(optionScene);
+      if (optionScene === 'restart') {
+        restartCount++;
+        counterElement.textContent = `Restarts: ${restartCount}`;
+        displayScene('start');
+      } else {
+        displayScene(optionScene);
+      }
     });
     storyElement.appendChild(button);
     
@@ -158,14 +144,18 @@ function displayScene(scene) {
   }
   
   // Hide the start button if options are available
-  if (hasOptions) {
-    startButton.style.display = 'none';
-  } else {
-    // No options available, close window after 5 seconds
+if (hasOptions) {
+  startButton.style.display = 'none';
+} else {
+  // If no options are available, wait 5 seconds, then display popup and sound for 2 seconds before closing the window
+  setTimeout(() => {
+    popupElement.style.display = 'block';
+    congratsSound.play();
     setTimeout(() => {
       window.close();
-    }, 5000);
-  }
+    }, 3000);
+  }, 5000);
+}
 }
 
 // Event listener for the start button
