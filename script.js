@@ -60,9 +60,7 @@ const story = {
   },
   trust_cooperation: {
     text: 'You maintain trust and cooperation with your fellow prisoners, working together to overcome every obstacle in your path. As you reach the exit, you share a moment of triumph and solidarity. Your journey ends in freedom.',
-    options: {
-      'Restart the game': 'start'
-    }
+    options: {}
   },
   betray_allies: {
     text: 'You betray your allies, seizing an opportunity for personal gain. But your actions lead to chaos and betrayal among the group. In the end, you find yourself alone and surrounded by enemies. Your journey ends in betrayal and isolation.',
@@ -130,9 +128,7 @@ const story = {
   },
   forest_escape: {
     text: 'You run into the forest, the sounds of the prison fading behind you. The forest is dark and full of dangers, but you press on. Eventually, you find a hidden path that leads to freedom. You are finally free.',
-    options: {
-      'Restart the game': 'start'
-    }
+    options: {}
   },
   town_escape: {
     text: 'You head towards the nearby town, hoping to find help. As you approach, you see guards patrolling the area. You try to sneak past them, but are spotted and captured. Your escape attempt ends in failure.',
