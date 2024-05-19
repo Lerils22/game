@@ -11,14 +11,14 @@ const story = {
   start: {
     text: 'You wake up in a dimly lit prison cell, disoriented and confused. The air is thick with the stench of sweat and despair. What will you do?',
     options: {
-      'Examine the cell for clues': 'examine_cell',
+      'Examine the cell': 'examine_cell',
       'Call out for help': 'call_for_help'
     }
   },
   examine_cell: {
     text: 'You search the cell and find a loose brick in the wall. Behind it, you discover a hidden passage. Do you explore it?',
     options: {
-      'Explore the hidden passage': 'escape_plan',
+      'Explore the hidden passage': 'hidden_passage',
       'Stay in the cell': 'stay_cell'
     }
   },
@@ -30,10 +30,10 @@ const story = {
     }
   },
   hide_wait: {
-    text: 'You hide in the shadows and wait for the footsteps to pass. After a tense moment, the coast is clear, and you emerge cautiously from your hiding spot. What will you do next?',
+    text: 'You hide in the shadows and wait for the footsteps to pass. After a tense moment, the coast is clear, and you emerge cautiously from your hiding spot. Unfortunately, you realize you\'ve returned to your cell.',
     options: {
-      'Search for an exit': 'search_exit',
-      'Try to find the source of the footsteps': 'find_footsteps'
+      'Search the cell again': 'examine_cell',
+      'Call out for help again': 'call_for_help'
     }
   },
   confront_guard: {
@@ -42,70 +42,126 @@ const story = {
       'Restart the game': 'restart'
     }
   },
-  escape_plan: {
-    text: 'You venture into the hidden passage and find yourself in a network of tunnels beneath the prison. As you explore, you encounter other prisoners who offer to help with your escape. What will you do?',
+  hidden_passage: {
+    text: 'You venture into the hidden passage and find yourself in a network of tunnels beneath the prison. After wandering for what feels like hours, you reach a fork in the path. Which way do you go?',
     options: {
-      'Accept their assistance': 'accept_assistance',
-      'Proceed alone': 'proceed_alone'
+      'Left': 'left_tunnel',
+      'Right': 'right_tunnel'
     }
   },
-  accept_assistance: {
-    text: 'You join forces with the other prisoners and work together to overcome obstacles, evade guards, and outsmart the security systems. But tensions rise as the escape plan becomes more risky. What will you do?',
+  left_tunnel: {
+    text: 'You take the left tunnel, which leads to a dead end. You realize you have no choice but to go back.',
     options: {
-      'Maintain trust and cooperation': 'trust_cooperation',
-      'Betray your allies for personal gain': 'betray_allies'
+      'Return to the fork': 'hidden_passage'
     }
   },
-  proceed_alone: {
-    text: 'You choose to proceed alone, trusting in your own skills and instincts. Though the path is perilous, you manage to evade detection and reach the outer walls of the prison. Freedom is within reach. What will you do?',
+  right_tunnel: {
+    text: 'You take the right tunnel and find a ladder leading up to a trapdoor. Do you climb the ladder?',
     options: {
-      'Climb the walls to freedom': 'climb_walls',
-      'Search for another way out': 'search_another_way'
+      'Climb the ladder': 'climb_ladder',
+      'Stay in the tunnel': 'stay_tunnel'
     }
   },
-  trust_cooperation: {
-    text: 'You maintain trust and cooperation with your fellow prisoners, working together to overcome every obstacle in your path. As you reach the exit, you share a moment of triumph and solidarity. Your journey ends in freedom.',
-    options: {}
+  stay_tunnel: {
+    text: 'You decide to stay in the tunnel, but the air is getting thinner and you start to feel dizzy. You have to make a decision quickly.',
+    options: {
+      'Climb the ladder': 'climb_ladder',
+      'Go back': 'hidden_passage'
+    }
   },
-  betray_allies: {
-    text: 'You betray your allies, seizing an opportunity for personal gain. But your actions lead to chaos and betrayal among the group. In the end, you find yourself alone and surrounded by enemies. Your journey ends in betrayal and isolation.',
+  climb_ladder: {
+    text: 'You climb the ladder and push open the trapdoor, finding yourself in an abandoned room filled with old furniture. There are two doors: one to the north and one to the south. Which do you choose?',
+    options: {
+      'North door': 'north_door',
+      'South door': 'south_door'
+    }
+  },
+  north_door: {
+    text: 'You open the north door and enter a dimly lit hallway. As you proceed, you hear guards talking nearby. You quickly backtrack and close the door.',
+    options: {
+      'Try the south door': 'south_door',
+      'Go back down the ladder': 'right_tunnel'
+    }
+  },
+  south_door: {
+    text: 'You open the south door and find yourself in what appears to be a guard\'s break room. Luckily, it\'s empty. You spot another door across the room.',
+    options: {
+      'Cross the room': 'cross_room',
+      'Go back to the trapdoor': 'right_tunnel'
+    }
+  },
+  cross_room: {
+    text: 'You cross the room and open the door, finding a staircase leading up. You ascend the stairs and reach another hallway. At the end of the hallway, you see an exit sign.',
+    options: {
+      'Head towards the exit': 'near_exit',
+      'Explore the hallway': 'explore_hallway'
+    }
+  },
+  explore_hallway: {
+    text: 'You explore the hallway and find another door. You open it to find a closet full of guard uniforms. Do you put one on?',
+    options: {
+      'Put on a uniform': 'put_uniform',
+      'Ignore the uniforms': 'ignore_uniforms'
+    }
+  },
+  put_uniform: {
+    text: 'You put on a guard uniform, hoping to blend in. As you proceed down the hallway, a guard stops you and questions your presence. You realize your mistake too late and are captured.',
     options: {
       'Restart the game': 'restart'
     }
   },
-  climb_walls: {
-    text: 'You muster all your strength and agility to climb the walls of the prison. With every muscle straining, you reach the top and gaze out into the night. Freedom beckons, but the journey is far from over.',
+  ignore_uniforms: {
+    text: 'You ignore the uniforms and continue exploring. You find another staircase leading up. Do you ascend?',
     options: {
-      'Make your way through the forest': 'forest_escape',
-      'Head towards the nearby town': 'town_escape'
+      'Ascend the staircase': 'ascend_staircase',
+      'Return to the previous staircase': 'cross_room'
     }
   },
-  search_another_way: {
-    text: 'You search for another way out, exploring the perimeter of the prison for any weaknesses or vulnerabilities. After a thorough search, you discover a hidden passage that leads to freedom. Your journey ends with a daring escape.',
+  ascend_staircase: {
+    text: 'You ascend the staircase and find yourself in a dimly lit room with a single door. You hear guards approaching. What will you do?',
+    options: {
+      'Hide in the shadows': 'hide_shadows',
+      'Open the door and run': 'open_door_run'
+    }
+  },
+  hide_shadows: {
+    text: 'You hide in the shadows and wait for the guards to pass. They eventually leave, and you cautiously open the door to find another hallway. At the end of the hallway, you see another exit sign.',
+    options: {
+      'Head towards the exit': 'near_exit',
+      'Explore the hallway': 'explore_hallway'
+    }
+  },
+  open_door_run: {
+    text: 'You open the door and run, but the guards catch up to you quickly. You are captured and your escape attempt ends in failure.',
+    options: {
+      'Restart the game': 'restart'
+    }
+  },
+  near_exit: {
+    text: 'As you head towards the exit, you hear an alarm sound. The guards have been alerted to your presence. You must act quickly.',
+    options: {
+      'Run for the exit': 'run_exit',
+      'Hide and wait': 'hide_exit'
+    }
+  },
+  run_exit: {
+    text: 'You sprint towards the exit, dodging guards and evading capture. You burst through the door and find yourself outside, in the fresh air. Freedom is yours!',
+    options: {
+      'Celebrate your escape': 'celebrate'
+    }
+  },
+  hide_exit: {
+    text: 'You hide and wait for the guards to pass, but they find you. You are captured and taken back to your cell. Your escape attempt ends in failure.',
+    options: {
+      'Restart the game': 'restart'
+    }
+  },
+  celebrate: {
+    text: 'Congratulations! You have successfully escaped the prison. Well done!',
     options: {}
   },
   stay_cell: {
     text: 'You decide to stay in the cell and wait for something to happen. Time passes slowly, and despair begins to set in. Your journey ends here.',
-    options: {
-      'Restart the game': 'restart'
-    }
-  },
-  search_exit: {
-    text: 'You search for an exit and find a door slightly ajar. You carefully make your way through, only to be caught by a guard. Your escape attempt ends in failure.',
-    options: {}
-  },
-  find_footsteps: {
-    text: 'You follow the sound of the footsteps and discover a group of guards. They capture you and your escape attempt ends in failure.',
-    options: {
-      'Restart the game': 'restart'
-    }
-  },
-  forest_escape: {
-    text: 'You make your way through the forest, evading patrols and navigating through the dense undergrowth. After hours of trekking, you finally reach safety. Congratulations!',
-    options: {}
-  },
-  town_escape: {
-    text: 'You head towards the nearby town, blending in with the townsfolk and finding refuge in a safe house but You were caught.YOU FAILED!',
     options: {
       'Restart the game': 'restart'
     }
@@ -117,6 +173,7 @@ const story = {
     }
   }
 };
+
 
 // Function to display a scene
 function displayScene(scene) {
